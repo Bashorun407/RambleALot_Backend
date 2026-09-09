@@ -81,6 +81,12 @@
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-spatial</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>me.paulschwarz</groupId>
+			<artifactId>springboot4-dotenv</artifactId>
+			<version>5.1.0</version>
+			<!-- Version is managed by the BOM, so you can omit it -->
+		</dependency>
 	</dependencies>
 
 	<build>
