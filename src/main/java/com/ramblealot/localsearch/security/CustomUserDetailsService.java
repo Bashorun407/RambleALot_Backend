@@ -2,7 +2,6 @@ package com.ramblealot.localsearch.security;
 
 import com.ramblealot.localsearch.model.User;
 import com.ramblealot.localsearch.service.UserService;
-import jdk.jfr.Registered;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

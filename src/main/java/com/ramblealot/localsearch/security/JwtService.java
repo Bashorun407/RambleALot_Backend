@@ -14,9 +14,11 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
+
     // In a real application, inject this from environment variables.
     // This is a dummy base64 encoded 256-bit key for the MVP.
-    @Value("${jwt.secret")
+    //      private static final String SECRET_KEY = "NDQ1ZjQzM2I2MTM0MzUzNjM4M2EzODMwMzIzMTM1Mzc=";
+    @Value("${jwt.secret}")
     private String SECRET_KEY;
 
     public String extractUsername(String token) {
