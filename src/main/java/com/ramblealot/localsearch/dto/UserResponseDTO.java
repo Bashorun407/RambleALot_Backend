@@ -1,6 +1,6 @@
 package com.ramblealot.localsearch.dto;
 
-public record UserResponse(
+public record UserResponseDTO(
         Long id,
         String fullName,
         String email,

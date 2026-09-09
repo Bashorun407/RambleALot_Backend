@@ -1,4 +1,11 @@
 package com.ramblealot.localsearch.dto;
 
-public record ActivityLogResponseDTO() {
+import java.time.LocalDateTime;
+
+public record ActivityLogResponseDTO(
+        Long id,
+        String actionDescription,
+        String userEmail,
+        LocalDateTime timestamp
+) {
 }
