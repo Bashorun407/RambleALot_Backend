@@ -1,5 +1,6 @@
 package com.ramblealot.localsearch.service;
 
+import com.ramblealot.localsearch.dto.UserResponseDTO;
 import com.ramblealot.localsearch.model.User;
 import com.ramblealot.localsearch.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +14,19 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User registerOrganiser(User user) {
+    public UserResponseDTO registerOrganiser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        return new UserResponseDTO(
+                savedUser.getId(),
+                savedUser.getFullName(),
+                savedUser.getEmail(),
+                savedUser.getRole().name()
+        );
     }
 
-    public User findByEmail(String email) {
+    public User findEntityByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User profile not found."));
     }
