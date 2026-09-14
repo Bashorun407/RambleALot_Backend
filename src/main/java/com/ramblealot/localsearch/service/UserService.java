@@ -1,5 +1,6 @@
 package com.ramblealot.localsearch.service;
 
+import com.ramblealot.localsearch.dto.UserOnboardingRequestDTO;
 import com.ramblealot.localsearch.dto.UserResponseDTO;
 import com.ramblealot.localsearch.model.User;
 import com.ramblealot.localsearch.repository.UserRepository;
@@ -18,16 +19,43 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User savedUser = userRepository.save(user);
 
-        return new UserResponseDTO(
-                savedUser.getId(),
-                savedUser.getFullName(),
-                savedUser.getEmail(),
-                savedUser.getRole().name()
-        );
+//        return new UserResponseDTO(
+//                savedUser.getId(),
+//                savedUser.getFullName(),
+//                savedUser.getEmail(),
+//                savedUser.getRole().name()
+//        );
+
+        return UserResponseDTO.fromUserToUserResponsDTO(savedUser);
     }
 
     public User findEntityByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User profile not found."));
+    }
+
+    public UserResponseDTO onboardUser(UserOnboardingRequestDTO userOnboardingRequestDTO, User invitingAdmin) {
+        // Check if email already exists
+        if (userRepository.findByEmail(userOnboardingRequestDTO.email()).isPresent()) {
+            throw new IllegalArgumentException("User with this email already exists.");
+        }
+
+        User newUser = User.builder()
+                .email(userOnboardingRequestDTO.email())
+                .fullName(userOnboardingRequestDTO.fullName())
+                .password(passwordEncoder.encode(userOnboardingRequestDTO.temporaryPassword()))
+                .role(userOnboardingRequestDTO.role())
+                .isActive(true)
+                .build();
+
+        User savedUser = userRepository.save(newUser);
+//        return new UserResponseDTO(
+//                savedUser.getId(),
+//                savedUser.getFullName(),
+//                savedUser.getEmail(),
+//                savedUser.getRole().name()
+//        );
+
+        return UserResponseDTO.fromUserToUserResponsDTO(savedUser);
     }
 }
