@@ -8,7 +8,7 @@ public record UserResponseDTO(
         String email,
         String role
 ) {
-    public static UserResponseDTO fromUserToUserResponsDTO(User user){
+    public static UserResponseDTO userToUserResponseDTO(User user){
         return new UserResponseDTO(
                 user.getId(),
                 user.getFullName(),

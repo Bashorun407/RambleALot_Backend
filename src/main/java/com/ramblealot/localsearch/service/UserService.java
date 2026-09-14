@@ -19,14 +19,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User savedUser = userRepository.save(user);
 
-//        return new UserResponseDTO(
-//                savedUser.getId(),
-//                savedUser.getFullName(),
-//                savedUser.getEmail(),
-//                savedUser.getRole().name()
-//        );
-
-        return UserResponseDTO.fromUserToUserResponsDTO(savedUser);
+        return UserResponseDTO.userToUserResponseDTO(savedUser);
     }
 
     public User findEntityByEmail(String email) {
@@ -49,13 +42,7 @@ public class UserService {
                 .build();
 
         User savedUser = userRepository.save(newUser);
-//        return new UserResponseDTO(
-//                savedUser.getId(),
-//                savedUser.getFullName(),
-//                savedUser.getEmail(),
-//                savedUser.getRole().name()
-//        );
 
-        return UserResponseDTO.fromUserToUserResponsDTO(savedUser);
+        return UserResponseDTO.userToUserResponseDTO(savedUser);
     }
 }
