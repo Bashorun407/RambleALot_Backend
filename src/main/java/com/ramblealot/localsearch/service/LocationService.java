@@ -21,29 +21,14 @@ public class LocationService {
     public List<LocationResponseDTO> getLocationsNearParticipant(double longitude, double latitude, double radiusInMeters) {
         List<Location> locations = locationRepository.findLocationsWithinRadius(longitude, latitude, radiusInMeters);
 
-        return locations.stream()
-                .map(loc -> new LocationResponseDTO(
-                        loc.getId(),
-                        loc.getName(),
-                        loc.getDescription(),
-                        loc.getOpeningHours(),
-                        loc.getCoordinates().getX(), // Longitude
-                        loc.getCoordinates().getY()  // Latitude
-                ))
-                .collect(Collectors.toList());
+        return locations.stream().map(LocationResponseDTO::locationToLocationResponseDTO).toList();
     }
 
     public LocationResponseDTO createLocation(Location location, User adminUser) {
+
         Location savedLocation = locationRepository.save(location);
         activityLogService.logAction(adminUser, "Created new location: " + savedLocation.getName());
 
-        return new LocationResponseDTO(
-                savedLocation.getId(),
-                savedLocation.getName(),
-                savedLocation.getDescription(),
-                savedLocation.getOpeningHours(),
-                savedLocation.getCoordinates().getX(),
-                savedLocation.getCoordinates().getY()
-        );
+        return LocationResponseDTO.locationToLocationResponseDTO(savedLocation);
     }
 }

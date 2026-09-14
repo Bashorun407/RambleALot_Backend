@@ -1,8 +1,6 @@
 package com.ramblealot.localsearch.controller;
 
-import com.ramblealot.localsearch.dto.ActivityLogResponseDTO;
-import com.ramblealot.localsearch.dto.LocationRequestDTO;
-import com.ramblealot.localsearch.dto.LocationResponseDTO;
+import com.ramblealot.localsearch.dto.*;
 import com.ramblealot.localsearch.model.Location;
 import com.ramblealot.localsearch.model.User;
 import com.ramblealot.localsearch.service.ActivityLogService;
@@ -50,5 +48,18 @@ public class DashboardController {
                 .build();
 
         return ResponseEntity.ok(locationService.createLocation(location, adminUser));
+    }
+
+    @PostMapping("/users/onboard")
+    public ResponseEntity<UserResponseDTO> onboardUser(
+            @RequestBody UserOnboardingRequestDTO request,
+            Authentication authentication) {
+
+        User currentAdmin = userService.findEntityByEmail(authentication.getName());
+        UserResponseDTO response = userService.onboardUser(request, currentAdmin);
+        activityLogService.logAction(currentAdmin, "Onboarded user: " + response.email()
+                + " as " + response.role());
+
+        return ResponseEntity.ok(response);
     }
 }
