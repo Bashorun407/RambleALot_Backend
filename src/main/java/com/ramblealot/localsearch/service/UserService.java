@@ -14,10 +14,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ActivityLogService activityLogService;
 
     public UserResponseDTO registerOrganiser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User savedUser = userRepository.save(user);
+
+        activityLogService.logAction(user, "Registered Organiser: " + savedUser.getEmail());
 
         return UserResponseDTO.userToUserResponseDTO(savedUser);
     }
@@ -42,7 +45,10 @@ public class UserService {
                 .build();
 
         User savedUser = userRepository.save(newUser);
+        activityLogService.logAction(invitingAdmin, "Onboarded a new user: " + newUser.getEmail());
 
         return UserResponseDTO.userToUserResponseDTO(savedUser);
     }
+
+
 }

@@ -25,13 +25,9 @@ public class ActivityLogService {
     }
 
     public List<ActivityLogResponseDTO> getRecentLogs() {
+
         return logRepository.findAllByOrderByTimestampDesc().stream()
-                .map(log -> new ActivityLogResponseDTO(
-                        log.getId(),
-                        log.getActionDescription(),
-                        log.getUser().getEmail(),
-                        log.getTimestamp()
-                ))
-                .collect(Collectors.toList());
+                .map(ActivityLogResponseDTO::logToLogResponseDTO)
+                .toList();
     }
 }

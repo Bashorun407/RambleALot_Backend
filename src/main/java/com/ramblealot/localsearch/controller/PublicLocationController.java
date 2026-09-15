@@ -17,6 +17,7 @@ import java.util.List;
 public class PublicLocationController {
 
     private final LocationService locationService;
+
     @GetMapping("/nearby")
     public ResponseEntity<List<LocationResponseDTO>> getNearbyLocations(
             @RequestParam double longitude,
