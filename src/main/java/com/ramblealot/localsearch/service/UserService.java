@@ -1,7 +1,9 @@
 package com.ramblealot.localsearch.service;
 
+import com.ramblealot.localsearch.dto.RegisterRequestDTO;
 import com.ramblealot.localsearch.dto.UserOnboardingRequestDTO;
 import com.ramblealot.localsearch.dto.UserResponseDTO;
+import com.ramblealot.localsearch.model.Role;
 import com.ramblealot.localsearch.model.User;
 import com.ramblealot.localsearch.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,17 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ActivityLogService activityLogService;
 
-    public UserResponseDTO registerOrganiser(User user) {
+    public UserResponseDTO registerOrganiser(RegisterRequestDTO registerRequestDTO) {
+
+        User user = User.builder()
+                .email(registerRequestDTO.email())
+                .password(registerRequestDTO.password())
+                .fullName(registerRequestDTO.fullName())
+                .organizationName(registerRequestDTO.organizationName())
+                .role(registerRequestDTO.role())
+                .isActive(true)
+                .build();
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User savedUser = userRepository.save(user);
 
@@ -43,6 +55,7 @@ public class UserService {
                 .fullName(userOnboardingRequestDTO.fullName())
                 .password(passwordEncoder.encode(userOnboardingRequestDTO.temporaryPassword()))
                 .role(userOnboardingRequestDTO.role())
+                .organizationName(userOnboardingRequestDTO.organizationName())
                 .isActive(true)
                 .build();
 
@@ -53,7 +66,7 @@ public class UserService {
     }
 
     public List<UserResponseDTO> getUsersByOrganization(String organizationName) {
-        return userRepository.findAllByOrganizationName(organizationName).stream()
+        return userRepository.findAllByOrganizationNameAndIsActiveTrue(organizationName).stream()
                 .map(UserResponseDTO::userToUserResponseDTO)
                 .toList();
     }
