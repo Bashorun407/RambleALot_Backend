@@ -71,4 +71,20 @@ public class UserService {
         userRepository.save(targetUser);
         return "Password updated successfully";
     }
+
+    public void deactivateUser(Long userId, User executingAdmin) {
+        if (executingAdmin.getId().equals(userId)) {
+            throw new IllegalArgumentException("Admins cannot deactivate their own accounts.");
+        }
+
+        User targetUser = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+
+        if (!targetUser.getOrganizationName().equals(executingAdmin.getOrganizationName())) {
+            throw new SecurityException("Unauthorized to modify users outside your organization.");
+        }
+
+        targetUser.setActive(false);
+        userRepository.save(targetUser);
+    }
 }
