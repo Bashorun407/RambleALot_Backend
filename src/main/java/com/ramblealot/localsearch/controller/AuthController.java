@@ -30,15 +30,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> register(@RequestBody RegisterRequestDTO request) {
-        User user = User.builder()
-                .email(request.email())
-                .password(request.password())
-                .fullName(request.fullName())
-                .role(request.role())
-                .isActive(true)
-                .build();
 
-        return ResponseEntity.ok(userService.registerOrganiser(user));
+        return ResponseEntity.ok(userService.registerOrganiser(request));
     }
 
     @PostMapping("/login")
