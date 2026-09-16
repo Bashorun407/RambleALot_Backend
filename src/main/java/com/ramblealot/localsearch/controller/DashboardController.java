@@ -79,4 +79,28 @@ public class DashboardController {
         activityLogService.logAction(currentAdmin, "Reset password for user ID: " + id);
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/locations/{id}")
+    public ResponseEntity<LocationResponseDTO> updateLocation(
+            @PathVariable Long id,
+            @RequestBody LocationUpdateRequestDTO request,
+            Authentication authentication) {
+        User currentAdmin = userService.findEntityByEmail(authentication.getName());
+        return ResponseEntity.ok(locationService.updateLocation(id, request, currentAdmin));
+    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> removeUser(@PathVariable Long id, Authentication authentication) {
+        User currentAdmin = userService.findEntityByEmail(authentication.getName());
+        userService.deactivateUser(id, currentAdmin);
+        activityLogService.logAction(currentAdmin, "Deactivated user account ID: " + id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/locations/{id}")
+    public ResponseEntity<Void> removeLocation(@PathVariable Long id, Authentication authentication) {
+        User currentAdmin = userService.findEntityByEmail(authentication.getName());
+        locationService.deactivateLocation(id, currentAdmin);
+        return ResponseEntity.noContent().build();
+    }
 }
