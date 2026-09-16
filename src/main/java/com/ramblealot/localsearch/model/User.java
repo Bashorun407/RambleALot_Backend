@@ -34,6 +34,9 @@ public class User {
 
     private boolean isActive = true;
 
+    @Column(nullable = false)
+    private String organizationName;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;

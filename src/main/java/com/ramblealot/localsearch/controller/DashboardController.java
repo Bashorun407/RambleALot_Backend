@@ -62,4 +62,21 @@ public class DashboardController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<UserResponseDTO>> getOrganizationUsers(Authentication authentication) {
+        User currentAdmin = userService.findEntityByEmail(authentication.getName());
+        return ResponseEntity.ok(userService.getUsersByOrganization(currentAdmin.getOrganizationName()));
+    }
+
+    @PatchMapping("/users/{id}/reset-password")
+    public ResponseEntity<String> resetUserPassword(
+            @PathVariable Long id,
+            @RequestParam String newPassword,
+            Authentication authentication) {
+        User currentAdmin = userService.findEntityByEmail(authentication.getName());
+        String response = userService.resetPasswordByAdmin(id, newPassword, currentAdmin);
+        activityLogService.logAction(currentAdmin, "Reset password for user ID: " + id);
+        return ResponseEntity.ok(response);
+    }
 }

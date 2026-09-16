@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -50,5 +52,23 @@ public class UserService {
         return UserResponseDTO.userToUserResponseDTO(savedUser);
     }
 
+    public List<UserResponseDTO> getUsersByOrganization(String organizationName) {
+        return userRepository.findAllByOrganizationName(organizationName).stream()
+                .map(UserResponseDTO::userToUserResponseDTO)
+                .toList();
+    }
 
+    public String resetPasswordByAdmin(Long userId, String newPassword, User executingAdmin) {
+        User targetUser = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        // Ensure the admin only resets passwords for their own organization
+        if (!targetUser.getOrganizationName().equals(executingAdmin.getOrganizationName())) {
+            throw new SecurityException("Unauthorized to modify users outside your organization.");
+        }
+
+        targetUser.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(targetUser);
+        return "Password updated successfully";
+    }
 }
