@@ -6,6 +6,7 @@ public record UserOnboardingRequestDTO(
         String email,
         String fullName,
         String temporaryPassword,
+        String organizationName,
         Role role
 ) {
 }
