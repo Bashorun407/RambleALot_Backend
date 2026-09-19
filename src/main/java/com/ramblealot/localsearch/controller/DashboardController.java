@@ -90,17 +90,17 @@ public class DashboardController {
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> removeUser(@PathVariable Long id, Authentication authentication) {
+    public ResponseEntity<String> removeUser(@PathVariable Long id, Authentication authentication) {
         User currentAdmin = userService.findEntityByEmail(authentication.getName());
         userService.deactivateUser(id, currentAdmin);
         activityLogService.logAction(currentAdmin, "Deactivated user account ID: " + id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("User successfully removed");
     }
 
     @DeleteMapping("/locations/{id}")
-    public ResponseEntity<Void> removeLocation(@PathVariable Long id, Authentication authentication) {
+    public ResponseEntity<String> removeLocation(@PathVariable Long id, Authentication authentication) {
         User currentAdmin = userService.findEntityByEmail(authentication.getName());
         locationService.deactivateLocation(id, currentAdmin);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Location successfully removed.");
     }
 }
