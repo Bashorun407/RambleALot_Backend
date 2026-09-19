@@ -4,7 +4,6 @@ import com.ramblealot.localsearch.dto.AuthResponseDTO;
 import com.ramblealot.localsearch.dto.LoginRequestDTO;
 import com.ramblealot.localsearch.dto.RegisterRequestDTO;
 import com.ramblealot.localsearch.dto.UserResponseDTO;
-import com.ramblealot.localsearch.model.User;
 import com.ramblealot.localsearch.security.CustomUserDetailsService;
 import com.ramblealot.localsearch.security.JwtService;
 import com.ramblealot.localsearch.service.UserService;
