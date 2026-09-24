@@ -50,7 +50,7 @@ jobs:
               -p 8080:8080 \
               -e SPRING_DATASOURCE_URL=jdbc:postgresql://172.31.221.144:5432/ramblealot_db \
               -e SPRING_DATASOURCE_USERNAME=postgres \
-              -e SPRING_DATASOURCE_PASSWORD=SecurePassword123! \
-              -e JWT_SECRET="<your-secure-jwt-secret>" \
+              -e SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
               ${{ secrets.DOCKERHUB_USERNAME }}/ramblealot-backend:latest
             sudo docker system prune -f
