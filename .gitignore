@@ -34,3 +34,17 @@ build/
 
 ### ENV ###
 .env
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Ignore any secret variable files
+*.tfvars
