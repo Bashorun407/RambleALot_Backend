@@ -1,4 +1,3 @@
-
 terraform {
   required_providers {
     aws = {
@@ -23,29 +22,11 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-# Fetch your default VPC
-data "aws_vpc" "default" {
-  default = true
-}
-
-# Fetch all subnets inside that VPC
-data "aws_subnets" "default" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.default.id]
-  }
-
-  filter {
-      name   = "availability-zone"
-      values = ["us-east-1a"]
-    }
-}
-
 # Security Group
 resource "aws_security_group" "ramblealot_sg" {
   name        = "ramble-sg-iac"
   description = "Allow SSH and HTTP traffic for MVP"
-  vpc_id      = data.aws_vpc.default.id
+  vpc_id      = var.aws_vpc
 
   ingress {
     description = "SSH from anywhere"
@@ -77,7 +58,7 @@ resource "aws_instance" "app_server" {
   instance_type               = "t3.micro"
   key_name                    = var.key_pair_name
   vpc_security_group_ids      = [aws_security_group.ramblealot_sg.id]
-  subnet_id                   = data.aws_subnets.default.ids[0]
+  subnet_id                   = var.aws_subnet
   associate_public_ip_address = true
 
   # Automatically configure server and database on boot
