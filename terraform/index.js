@@ -1,1 +1,1 @@
-exports.handler = async (event) => { console.log('Hello Hackathon'); };
+exports.handler = async (event) => { console.log('Hello Ramblealot!!'); };
