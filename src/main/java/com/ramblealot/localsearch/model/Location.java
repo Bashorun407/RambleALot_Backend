@@ -20,6 +20,9 @@ public class Location {
     @Column(nullable = false)
     private String name;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
 

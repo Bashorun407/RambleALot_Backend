@@ -40,12 +40,19 @@ public class DatabaseDataSeeder implements CommandLineRunner {
             double offsetLon = (Math.random() - 0.5) * 0.08;
             double offsetLat = (Math.random() - 0.5) * 0.08;
 
+            // Option A: Dynamic placeholder for UI testing variety
+            String sampleImageUrl = "https://picsum.photos/seed/" + i + "/400/300";
+
+            // Option B: Point to a default image in your new S3 bucket
+            // String sampleImageUrl = "https://ramblealot-assets-olusheyi-2026.s3.amazonaws.com/default-location.jpg";
+
             Location loc = Location.builder()
                     .name("Pilot Exploration Spot #" + i)
                     .description("Realistic community exploration challenge and landmark spot #" + i)
                     .openingHours("08:00 AM - 08:00 PM")
                     .coordinates(geometryFactory.createPoint(new Coordinate(baseLon + offsetLon, baseLat + offsetLat)))
                     .isActive(true)
+                    .imageUrl(sampleImageUrl) // <-- Added imageUrl here
                     .build();
 
             seedLocations.add(loc);

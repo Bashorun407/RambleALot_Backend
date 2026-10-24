@@ -5,6 +5,7 @@ import com.ramblealot.localsearch.model.Location;
 public record LocationResponseDTO(
         Long id,
         String name,
+        String imageUrl,
         String description,
         String openingHours,
         double longitude,
@@ -14,6 +15,7 @@ public record LocationResponseDTO(
         return new LocationResponseDTO(
                 location.getId(),
                 location.getName(),
+                location.getImageUrl(),
                 location.getDescription(),
                 location.getOpeningHours(),
                 location.getCoordinates().getX(),

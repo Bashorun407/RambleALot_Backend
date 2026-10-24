@@ -38,6 +38,7 @@ public class LocationService {
                 .orElseThrow(() -> new IllegalArgumentException("Location not found with id: " + locationId));
 
         if (dto.name() != null) location.setName(dto.name());
+        if (dto.imageUrl() != null) location.setImageUrl(dto.imageUrl());
         if (dto.description() != null) location.setDescription(dto.description());
         if (dto.openingHours() != null) location.setOpeningHours(dto.openingHours());
         if (dto.isActive() != null) location.setActive(dto.isActive());
