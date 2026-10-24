@@ -27,3 +27,9 @@ variable "db_password" {
   type        = string
   sensitive   = true
 }
+
+variable "s3_bucket_name" {
+  description = "Globally unique name for the S3 images bucket"
+  type        = string
+  default     = "ramblealot-assets-olusheyi-2026" # Change this to be completely unique
+}
