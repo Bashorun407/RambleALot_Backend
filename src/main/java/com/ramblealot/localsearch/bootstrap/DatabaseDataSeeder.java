@@ -48,11 +48,11 @@ public class DatabaseDataSeeder implements CommandLineRunner {
 
             Location loc = Location.builder()
                     .name("Pilot Exploration Spot #" + i)
+                    .imageUrl(sampleImageUrl)
                     .description("Realistic community exploration challenge and landmark spot #" + i)
                     .openingHours("08:00 AM - 08:00 PM")
                     .coordinates(geometryFactory.createPoint(new Coordinate(baseLon + offsetLon, baseLat + offsetLat)))
                     .isActive(true)
-                    .imageUrl(sampleImageUrl) // <-- Added imageUrl here
                     .build();
 
             seedLocations.add(loc);
