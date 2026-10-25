@@ -62,7 +62,7 @@ public class LocationService {
         return LocationResponseDTO.locationToLocationResponseDTO(updated);
     }
 
-    // Wipe the location cache when a location is deactivated
+    // Wipe the location cache when a location is deactivated_
     @CacheEvict(value = "locations", allEntries = true)
     public void deactivateLocation(Long locationId, User adminUser) {
         Location location = locationRepository.findById(locationId)
