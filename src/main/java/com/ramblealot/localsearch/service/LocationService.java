@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -62,7 +61,7 @@ public class LocationService {
         return LocationResponseDTO.locationToLocationResponseDTO(updated);
     }
 
-    // Wipe the location cache when a location is deactivated_
+    // Wipe the location cache when a location is deactivated
     @CacheEvict(value = "locations", allEntries = true)
     public void deactivateLocation(Long locationId, User adminUser) {
         Location location = locationRepository.findById(locationId)
