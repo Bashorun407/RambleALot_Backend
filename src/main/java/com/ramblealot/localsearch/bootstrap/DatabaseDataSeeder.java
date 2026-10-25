@@ -41,10 +41,10 @@ public class DatabaseDataSeeder implements CommandLineRunner {
             double offsetLat = (Math.random() - 0.5) * 0.08;
 
             // Option A: Dynamic placeholder for UI testing variety
-             String sampleImageUrl = "https://picsum.photos/seed/" + i + "/400/300";
+            // String sampleImageUrl = "https://picsum.photos/seed/" + i + "/400/300";
 
             // Option B: Point to a default image in your new S3 bucket
-            // String sampleImageUrl = "https://ramblealot-assets-olusheyi-2026.s3.amazonaws.com/default-location.jpg";
+             String sampleImageUrl = "https://ramblealot-assets-olusheyi-2026.s3.amazonaws.com/default-location.jpg";
 
             Location loc = Location.builder()
                     .name("Pilot Exploration Spot #" + i)
