@@ -6,6 +6,7 @@ import com.ramblealot.localsearch.model.Location;
 import com.ramblealot.localsearch.model.User;
 import com.ramblealot.localsearch.repository.LocationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,8 @@ public class LocationService {
         return locations.stream().map(LocationResponseDTO::locationToLocationResponseDTO).toList();
     }
 
+    // Wipe the location cache when a new location is created
+    @CacheEvict(value = "locations", allEntries = true)
     public LocationResponseDTO createLocation(Location location, User adminUser) {
 
         Location savedLocation = locationRepository.save(location);
@@ -33,6 +36,8 @@ public class LocationService {
         return LocationResponseDTO.locationToLocationResponseDTO(savedLocation);
     }
 
+    // Wipe the location cache when a location is updated
+    @CacheEvict(value = "locations", allEntries = true)
     public LocationResponseDTO updateLocation(Long locationId, LocationUpdateRequestDTO dto, User adminUser) {
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new IllegalArgumentException("Location not found with id: " + locationId));
@@ -57,6 +62,8 @@ public class LocationService {
         return LocationResponseDTO.locationToLocationResponseDTO(updated);
     }
 
+    // Wipe the location cache when a location is deactivated
+    @CacheEvict(value = "locations", allEntries = true)
     public void deactivateLocation(Long locationId, User adminUser) {
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new IllegalArgumentException("Location not found with id: " + locationId));
