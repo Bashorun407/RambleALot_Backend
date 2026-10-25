@@ -41,6 +41,7 @@ public class DashboardController {
 
         Location location = Location.builder()
                 .name(request.name())
+                .imageUrl(request.imageUrl())
                 .description(request.description())
                 .openingHours(request.openingHours())
                 .coordinates(point)
