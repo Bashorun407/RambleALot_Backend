@@ -37,7 +37,7 @@ data "aws_subnets" "default" {
 
 # Security Group
 resource "aws_security_group" "ramblealot_sg" {
-  name        = "ramblealot-sg-iac"
+  name        = "ramblealot-sg-iac" #Personal aws account
   description = "Allow SSH and HTTP traffic for MVP"
   vpc_id      = data.aws_vpc.default.id
 
@@ -68,7 +68,8 @@ resource "aws_security_group" "ramblealot_sg" {
 # EC2 Instance
 resource "aws_instance" "app_server" {
   ami                         = data.aws_ami.ubuntu.id
-  instance_type               = "t3.micro"
+  #instance_type               = "t3.micro" #Personal aws account
+  instance_type                = "t2.micro"
   key_name                    = var.key_pair_name
   vpc_security_group_ids      = [aws_security_group.ramblealot_sg.id]
   subnet_id                   = data.aws_subnets.default.ids[0]
